@@ -1,15 +1,19 @@
 const express = require("express");
+const contacts = require("../controllers/contact.controller");
+
 const router = express.Router();
-const contacts = require("../controllers/contact.controller.js");
 
-// ✅ Kiểm tra tên hàm có đúng với controller không
-router.get("/favorite", contacts.findAllFavorite);
+router.route("/")
+  .get(contacts.findAll)
+  .post(contacts.create)
+  .delete(contacts.deleteAll);
 
-router.post("/", contacts.create);
-router.get("/", contacts.findAll);
-router.get("/:id", contacts.findOne);
-router.put("/:id", contacts.update);
-router.delete("/:id", contacts.delete);
-router.delete("/", contacts.deleteAll);
+router.route("/favorite")
+  .get(contacts.findAllFavorite);
+
+router.route("/:id")
+  .get(contacts.findOne) // Đây là route GET cho id
+  .put(contacts.update)
+  .delete(contacts.delete);
 
 module.exports = router;
